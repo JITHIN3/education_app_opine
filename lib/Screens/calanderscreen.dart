@@ -1,10 +1,12 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/Preferaneces/preferances.dart';
 import 'package:education_app_opine/Screens/mainhome.dart';
 import 'package:education_app_opine/ConstantWidget/events.dart';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
 
@@ -24,14 +26,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
   List<CalendarModel>? holiday  = [];
-  final Map<DateTime, List> holidays = {
-    DateTime(2021, 3, 1): ["228"],
+  List<DateTime> holidayList = [];
 
-  };
 
 
   @override
   void initState() {
+    getCalendar();
     selectedEvents = {};
     super.initState();
   }
@@ -103,11 +104,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   focusedDay = focusDay;
                                 });
                               },
+                              holidayPredicate: (day){
+                                DateTime parsedDate = new DateFormat("yyyy-MM-dd")
+                                    .parse(day.toString());
+                                return holidayList.contains(parsedDate);
+                              },
                               eventLoader: _getEventsfromDay,
                               calendarStyle: const CalendarStyle(
                                 holidayTextStyle:
-                                    TextStyle(color: Colors.redAccent),
-                                holidayDecoration: BoxDecoration(),
+                                    TextStyle(color: Colors.red),
+                                holidayDecoration: BoxDecoration(
+                                  color: Colors.white,
+                                      shape:BoxShape.circle
+                                ),
                                 isTodayHighlighted: true,
                                 selectedDecoration: BoxDecoration(
                                     color: Colors.blue, shape: BoxShape.circle),
@@ -170,21 +179,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  // Future<CalendarModel?> getCalendar(day,index) async {
-  //   final response = await http.post(
-  //
-  //       Uri.parse(
-  //           "https://educationerp.in/bhavans/index.php/m_api/attendance_c/calender_list"),
-  //       body: {
-  //         "Authorization":
-  //             "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl9kYXRhIjp7InN0dWRlbnRfaWQiOiIzNDAzIiwic3R1ZGVudF9uYW1lIjoiVGVzdCAgVCIsImFkbWlzc2lvbl9ubyI6Ijk5OTk5OSIsImNsYXNzIjoiVGVzdCIsImRpdmlzaW9uIjpudWxsLCJ1c2VybmFtZSI6Ijk5OTk5OSIsInJvbGUiOiI0Iiwicm9sZV9uYW1lIjoiUGFyZW50In19.-b5VVJINJXs0CJ2SX0h5hEN8JDQ9PFSXvvPgCcbv--0",
-  //       });
-  //
-  //   final jsonData = jsonDecode(response.body);
-  //   var data = CalendarModel.fromJson(jsonData).data;
-  //   return data;
-  // }
-
 getCalendar() async {
 
     isLoading =true;
@@ -196,15 +190,26 @@ getCalendar() async {
       final responsebody = json.decode(response.body.toString());
       isLoading =false;
       setState(() {});
-
       if(responsebody["status"]==200){
-       response = jsonDecode(responsebody);
+        final data = responsebody['data'];
+        List holidayDays = data['holiday_list'];
+       // response = jsonDecode(responsebody);
+        if (null != holidayDays && holidayDays.length > 0) {
+          for (Map<String, dynamic> day in holidayDays) {
 
-        List dataList =responsebody['data'];
-        if(null !=dataList && dataList.length > 0){
-          holiday = dataList.map((spacecraft) => new CalendarModel.fromJson(spacecraft)).toList();
+            String? convertedDate = "${day["year"]}-${day["mon"].padLeft(2,'0')}-${day["day"].padLeft(2,'0')}";
+            DateTime parsedDate = new DateFormat("yyyy-MM-dd").parse(convertedDate);
+            holidayList.add(parsedDate);
 
+
+
+          }
         }
+        // List dataList =responsebody['data'];
+        // if(null !=dataList && dataList.length > 0){
+        //   holiday = dataList.map((spacecraft) => new CalendarModel.fromJson(spacecraft)).toList();
+        //
+        // }
       }
       setState(() {
 
