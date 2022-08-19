@@ -128,95 +128,95 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 160),
-          const Center(
-            child: Text(
-              "Or Login with",
-              style: TextStyle(fontSize: 15),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.blue,
-                      child: ClipRRect(
-                        child: Image(
-                          image: AssetImage("lib/Assets/facebook.png"),
-                          width: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text("Facebook"),
-                  )
-                ],
-              ),
-              Column(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, left: 30),
-                    child: CircleAvatar(
-                      radius: 30,
-                      child: ClipRRect(
-                        child: Image(
-                          image: NetworkImage(
-                              "https://cdn-icons-png.flaticon.com/512/2702/2702602.png"),
-                          width: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, left: 27),
-                    child: Text("Google"),
-                  )
-                ],
-              ),
-              Column(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, left: 30),
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.black,
-                      child: ClipRRect(
-                        child: Image(
-                          image: AssetImage("lib/Assets/apple.png"),
-                          width: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, left: 25),
-                    child: Text("Apple"),
-                  )
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Padding(
-                padding: EdgeInsets.only(top: 40),
-                child: Text("New User ?", style: TextStyle(fontSize: 17)),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 40, left: 8),
-                child: Text("Sign up",
-                    style: TextStyle(fontSize: 17, color: Colors.blue)),
-              )
-            ],
-          )
+          // const SizedBox(height: 160),
+          // const Center(
+          //   child: Text(
+          //     "Or Login with",
+          //     style: TextStyle(fontSize: 15),
+          //   ),
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Column(
+          //       children: const [
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 20),
+          //           child: CircleAvatar(
+          //             radius: 30,
+          //             backgroundColor: Colors.blue,
+          //             child: ClipRRect(
+          //               child: Image(
+          //                 image: AssetImage("lib/Assets/facebook.png"),
+          //                 width: 20,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 10),
+          //           child: Text("Facebook"),
+          //         )
+          //       ],
+          //     ),
+          //     Column(
+          //       children: const [
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 20, left: 30),
+          //           child: CircleAvatar(
+          //             radius: 30,
+          //             child: ClipRRect(
+          //               child: Image(
+          //                 image: NetworkImage(
+          //                     "https://cdn-icons-png.flaticon.com/512/2702/2702602.png"),
+          //                 width: 20,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 10, left: 27),
+          //           child: Text("Google"),
+          //         )
+          //       ],
+          //     ),
+          //     Column(
+          //       children: const [
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 20, left: 30),
+          //           child: CircleAvatar(
+          //             radius: 30,
+          //             backgroundColor: Colors.black,
+          //             child: ClipRRect(
+          //               child: Image(
+          //                 image: AssetImage("lib/Assets/apple.png"),
+          //                 width: 20,
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //         Padding(
+          //           padding: EdgeInsets.only(top: 10, left: 25),
+          //           child: Text("Apple"),
+          //         )
+          //       ],
+          //     ),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: const [
+          //     Padding(
+          //       padding: EdgeInsets.only(top: 40),
+          //       child: Text("New User ?", style: TextStyle(fontSize: 17)),
+          //     ),
+          //     Padding(
+          //       padding: EdgeInsets.only(top: 40, left: 8),
+          //       child: Text("Sign up",
+          //           style: TextStyle(fontSize: 17, color: Colors.blue)),
+          //     )
+          //   ],
+          // )
         ]),
       ),
       backgroundColor: Colors.white,

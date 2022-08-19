@@ -8,32 +8,9 @@ CalendarModel calendarModelFromJson(String str) => CalendarModel.fromJson(json.d
 
 String calendarModelToJson(CalendarModel data) => json.encode(data.toJson());
 
+
 class CalendarModel {
   CalendarModel({
-    this.status,
-    this.statusMessage,
-    this.data,
-  });
-
-  int? status;
-  String? statusMessage;
-  Data? data;
-
-  factory CalendarModel.fromJson(Map<String, dynamic> json) => CalendarModel(
-    status: json["status"],
-    statusMessage: json["status_message"],
-    data: Data.fromJson(json["data"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "status_message": statusMessage,
-    "data": data?.toJson(),
-  };
-}
-
-class Data {
-  Data({
     required this.holidayList,
     required this.eventList,
   });
@@ -41,7 +18,7 @@ class Data {
   List<HolidayList> holidayList;
   List<dynamic> eventList;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory CalendarModel.fromJson(Map<String, dynamic> json) => CalendarModel(
     holidayList: List<HolidayList>.from(json["holiday_list"].map((x) => HolidayList.fromJson(x))),
     eventList: List<dynamic>.from(json["event_list"].map((x) => x)),
   );

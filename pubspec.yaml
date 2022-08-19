@@ -81,6 +81,9 @@ flutter:
       - lib/Assets/apple.png
       - lib/Assets/erplogo.jpeg
       - lib/Assets/erplogo-removebg-preview.png
+      - lib/Assets/calandar.png
+      - lib/Assets/fee.png
+      - lib/Assets/message.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
