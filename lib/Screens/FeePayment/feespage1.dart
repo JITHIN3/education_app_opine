@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:education_app_opine/Apis/Apidata.dart';
+import 'package:education_app_opine/ConstantWidget/ShimmerWidget/shimmerdesign.dart';
+import 'package:education_app_opine/ConstantWidget/query/screensize.dart';
 import 'package:education_app_opine/Screens/FeePayment/feepage2.dart';
 import 'package:education_app_opine/Screens/dashboard.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../Models/payment_history_model.dart';
 import '../../Preferaneces/preferances.dart';
 import '../../Provider/provider_block.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FeePage1 extends StatefulWidget {
   const FeePage1({Key? key}) : super(key: key);
@@ -86,7 +89,9 @@ class _FeePage1State extends State<FeePage1> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Text(provider.studentList.academicYear.toString(),
+                                Text(
+                                    provider.studentList.academicYear
+                                        .toString(),
                                     style: TextStyle(fontSize: 18))
                               ],
                             ),
@@ -111,7 +116,9 @@ class _FeePage1State extends State<FeePage1> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Text(provider.studentList.admissionNo.toString(),
+                                    Text(
+                                        provider.studentList.admissionNo
+                                            .toString(),
                                         style: TextStyle(fontSize: 18)),
                                   ],
                                 ),
@@ -126,7 +133,13 @@ class _FeePage1State extends State<FeePage1> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  Text(provider.studentList.dataClass.toString()+"  "+provider.studentList.division.toString(), style: TextStyle(fontSize: 18))
+                                  Text(
+                                      provider.studentList.dataClass
+                                              .toString() +
+                                          "  " +
+                                          provider.studentList.division
+                                              .toString(),
+                                      style: TextStyle(fontSize: 18))
                                 ],
                               ),
                             ],
@@ -141,6 +154,8 @@ class _FeePage1State extends State<FeePage1> {
                                 //     context,
                                 //     MaterialPageRoute(
                                 //         builder: (context) => const FeePage2()));
+
+                                _onBackButtonPressed(context);
                               },
                               child: Text(
                                 "Pay now",
@@ -200,7 +215,19 @@ class _FeePage1State extends State<FeePage1> {
                       Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: isLoading
-                              ? CircularProgressIndicator()
+                              ? ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: 5,
+                                  itemBuilder: (context, index) {
+                                    return ListTile(
+                                      leading: ShimmerWidget.circular(
+                                          height: 35, width: 40),
+                                    title: Padding(
+                                      padding: const EdgeInsets.only(bottom: 5),
+                                      child: ShimmerWidget.rectangular(height:20 ),
+                                    ),
+                                    subtitle: ShimmerWidget.rectangular(height: 20,),);
+                                  })
                               : ListView.builder(
                                   physics: ScrollPhysics(),
                                   scrollDirection: Axis.vertical,
@@ -241,7 +268,10 @@ class _FeePage1State extends State<FeePage1> {
     isLoading = true;
     setState(() {});
     Preferances().getToken().then((value) async {
-      var response = await http.post(Uri.parse(ApiData.Payment_History), body: value);
+      var response = await http.post(Uri.parse(ApiData.Payment_History), body: {
+        "Authorization":
+            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl9kYXRhIjp7InN0dWRlbnRfaWQiOiI0NzQ4Iiwic3R1ZGVudF9uYW1lIjoiTWl0aHJhbiBIYXJzaGEgU2FqaW4uIiwiYWRtaXNzaW9uX25vIjoiMTYyMjgiLCJjbGFzcyI6IklJSSIsImRpdmlzaW9uIjoiQyIsInVzZXJuYW1lIjoiMTYyMjgiLCJyb2xlIjoiNCIsInJvbGVfbmFtZSI6IlBhcmVudCJ9fQ.Uy-c-5jFxBoQ7_HWtizHrlDrQ0ir2EnRuZxki3ANm14"
+      });
       final responsebody = json.decode(response.body.toString());
 
       isLoading = false;
@@ -257,5 +287,27 @@ class _FeePage1State extends State<FeePage1> {
       }
       setState(() {});
     });
+  }
+
+  Future<bool> _onBackButtonPressed(BuildContext context) async {
+    setState(() {});
+    bool exitapp = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Payment Option"),
+            content: Text("Payment Option Will be Availabale Soon.."),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child:
+                      Text("Back", style: TextStyle(color: Colors.redAccent))),
+            ],
+          );
+        });
+
+    return exitapp;
   }
 }

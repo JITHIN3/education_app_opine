@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => _onBackButtonPressed(context),
+      onWillPop: () => onAlertDialoge(context),
       child: Scaffold(
         body: SafeArea(child: pageCaller(_bottomNavIndex)),
         bottomNavigationBar: CustomLineIndicatorBottomNavbar(
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<bool> _onBackButtonPressed(BuildContext context) async {
+  Future<bool> onAlertDialoge(BuildContext context) async {
     setState(() {});
     bool exitapp = await showDialog(
         context: context,

@@ -57,11 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 30, top: 30),
-            child: Center(
-                child: Text(
-              "Please pick your next six session on your\n                            calendar",
-              style: TextStyle(fontSize: 15, color: Colors.blueGrey),
-            )),
+
           ),
           Expanded(
             child: Padding(
