@@ -113,12 +113,12 @@ class _DashScreenState extends State<DashScreen> {
                 //1st
 
                 Padding(
-                  padding: EdgeInsets.only(top: 30, left: 10),
+                  padding: EdgeInsets.only(top: 30,left: 20),
                   child: InkWell(
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -131,7 +131,7 @@ class _DashScreenState extends State<DashScreen> {
                         ],
                       ),
                       width: 80,
-                      margin: EdgeInsets.all(8),
+
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -172,7 +172,7 @@ class _DashScreenState extends State<DashScreen> {
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -225,7 +225,7 @@ class _DashScreenState extends State<DashScreen> {
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
