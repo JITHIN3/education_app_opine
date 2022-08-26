@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../Models/AdminMessageModel.dart';
 import '../../Provider/provider_block.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AdminMessageScreen extends StatefulWidget {
   const AdminMessageScreen({Key? key}) : super(key: key);
@@ -23,10 +24,13 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   List<MessageSentModel> messages = [];
   bool isLoading = false;
   List<AdminChatModel> listallchat = [];
-  AdminChatModel adminchat =new AdminChatModel();
+  AdminChatModel adminchat = new AdminChatModel();
+
+
 
   @override
   void initState() {
+
     getAllChat();
     super.initState();
   }
@@ -34,7 +38,7 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ApplicationProvider>(builder: (context, provider, child) {
-      return   Scaffold(
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -62,9 +66,8 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
         ),
       );
 
-    }
-
-    );}
+    });
+  }
 
   Widget _messageSpace() {
     return Flexible(
@@ -234,12 +237,10 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
               .toList();
           // String data = packageModelList[0].id.toString();
         }
-
-
-
       }
       adminchat = AdminChatModel.fromJson(responsebody["data"]);
-      Provider.of<ApplicationProvider>(context, listen: false).setAdminChatDetails(adminchat);
+      Provider.of<ApplicationProvider>(context, listen: false)
+          .setAdminChatDetails(adminchat);
       setState(() {});
     });
   }
