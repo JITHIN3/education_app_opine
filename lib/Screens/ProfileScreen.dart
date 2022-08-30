@@ -44,14 +44,7 @@ class StudentProfile extends StatelessWidget {
                               },
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              "Edit",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                          )
+
                         ],
                       ),
                       Padding(

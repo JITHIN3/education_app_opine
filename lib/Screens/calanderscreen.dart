@@ -6,8 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/Preferaneces/preferances.dart';
 
-import 'package:education_app_opine/ConstantWidget/events.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
 
@@ -22,7 +20,6 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
@@ -101,16 +98,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               onDaySelected: (selectDay, focusDay) {
                                 print(selectDay);
                                 setState(() {
-                                  getEvents(
-                                      selectDay.toString().split(" ")[0]);
+                                  getEvents(selectDay.toString().split(" ")[0]);
                                   // calendarevent;
                                   selectedDay = selectDay;
                                 });
                               },
                               holidayPredicate: (day) {
                                 DateTime parsedDate =
-                                new DateFormat("yyyy-MM-dd")
-                                    .parse(day.toString());
+                                    new DateFormat("yyyy-MM-dd")
+                                        .parse(day.toString());
                                 return holidayList.contains(parsedDate);
                               },
                               calendarStyle: CalendarStyle(
@@ -122,7 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 selectedDecoration: BoxDecoration(
                                     color: Colors.blue, shape: BoxShape.circle),
                                 selectedTextStyle:
-                                TextStyle(color: Colors.white),
+                                    TextStyle(color: Colors.white),
                               ),
                               headerStyle: const HeaderStyle(
                                   formatButtonVisible: false,
@@ -147,26 +143,30 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               )),
                           null != calendarevent && calendarevent.length > 0
                               ? ListView.builder(
-                              physics: ScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: calendarevent.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(10),
-                                          color: Colors.white),
-                                      child: ListTile(
-                                        title: Text(calendarevent[index].reason
-                                            .toString()),
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: calendarevent.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white),
+                                        child: ListTile(
+                                          title: Text(
+                                            calendarevent[index]
+                                                .reason
+                                                .toString(),
+                                          ),
+                                        ),
                                       ),
-                                    ));
-                              })
+                                    );
+                                  })
                               : Center(
-                            child: Text("No Events Available"),
-                          )
+                                  child: Text("No Events Available"),
+                                )
                         ],
                       ),
                     ),
@@ -185,7 +185,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     Preferances().getToken().then((value) async {
       var response =
-      await http.post(Uri.parse(ApiData.Calendar_List), body: value);
+          await http.post(Uri.parse(ApiData.Calendar_List), body: value);
       final responsebody = json.decode(response.body.toString());
       isLoading = false;
       setState(() {});
@@ -197,10 +197,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
         if (null != holidayDays && holidayDays.length > 0) {
           for (Map<String, dynamic> day in holidayDays) {
             String? convertedDate =
-                "${day["year"]}-${day["mon"].padLeft(2, '0')}-${day["day"]
-                .padLeft(2, '0')}";
+                "${day["year"]}-${day["mon"].padLeft(2, '0')}-${day["day"].padLeft(2, '0')}";
             DateTime parsedDate =
-            new DateFormat("yyyy-MM-dd").parse(convertedDate);
+                new DateFormat("yyyy-MM-dd").parse(convertedDate);
             holidayList.add(parsedDate);
           }
         }
@@ -214,10 +213,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
     events = [];
     setState(() {});
     Preferances().getToken().then((value) async {
-      var response = await http.post(Uri.parse(ApiData.Event_List), body: {
-        "Authorization": value["Authorization"],
-        "date": date
-      });
+      var response = await http.post(Uri.parse(ApiData.Event_List),
+          body: {"Authorization": value["Authorization"], "date": date});
       final responsebody = json.decode(response.body.toString());
 
       isLoading = false;
@@ -229,9 +226,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           calendarevent = eventList
               .map((spacecraft) => new EventModel.fromJson(spacecraft))
               .toList();
-        }
-
-        else {
+        } else {
           setState(() {
             calendarevent = [];
           });

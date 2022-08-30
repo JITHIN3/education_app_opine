@@ -15,8 +15,14 @@ import 'Models/loginmodel.dart';
 import 'Screens/loginscreen.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<ApplicationProvider>(
@@ -30,6 +36,8 @@ void main() {
           ),
           home: SignInDemo())));
 }
+
+
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({Key? key}) : super(key: key);
@@ -108,9 +116,11 @@ class SignInDemoState extends State<SignInDemo>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(alignment: Alignment.center,
+      body: Container(
+        alignment: Alignment.center,
         child: ClipRRect(
-          child: Image(width: 130,
+          child: Image(
+            width: 130,
             image: AssetImage("lib/Assets/erplogo-removebg-preview.png"),
           ),
         ),

@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+
 import '../../Models/AdminMessageModel.dart';
 import '../../Provider/provider_block.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 class AdminMessageScreen extends StatefulWidget {
   const AdminMessageScreen({Key? key}) : super(key: key);
@@ -28,9 +29,14 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
 
 
 
+
+
+
+
+
+
   @override
   void initState() {
-
     getAllChat();
     super.initState();
   }
@@ -65,7 +71,6 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
           ]),
         ),
       );
-
     });
   }
 
@@ -220,28 +225,33 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   //   });
   // }
   Future getAllChat() async {
-    isLoading = true;
-    setState(() {});
-    Preferances().getToken().then((value) async {
-      var response =
-          await http.post(Uri.parse(ApiData.ALL_Message), body: value);
-      final responsebody = json.decode(response.body.toString());
 
-      isLoading = false;
-      setState(() {});
-      if (responsebody['status'] == 200) {
-        List dataList = responsebody['data'];
-        if (null != dataList && dataList.length > 0) {
-          listallchat = dataList
-              .map((spacecraft) => new AdminChatModel.fromJson(spacecraft))
-              .toList();
-          // String data = packageModelList[0].id.toString();
-        }
-      }
-      adminchat = AdminChatModel.fromJson(responsebody["data"]);
-      Provider.of<ApplicationProvider>(context, listen: false)
-          .setAdminChatDetails(adminchat);
-      setState(() {});
-    });
+   isLoading = true;
+   setState(() {});
+   Preferances().getToken().then((value) async {
+     var response =
+     await http.post(Uri.parse(ApiData.ALL_Message), body: value);
+     final responsebody = json.decode(response.body.toString());
+
+     isLoading = false;
+     setState(() {});
+     if (responsebody['status'] == 200) {
+       List dataList = responsebody['data'];
+       if (null != dataList && dataList.length > 0) {
+         listallchat = dataList
+             .map((spacecraft) => new AdminChatModel.fromJson(spacecraft))
+             .toList();
+         // String data = packageModelList[0].id.toString();
+       }
+     }
+     adminchat = AdminChatModel.fromJson(responsebody["data"]);
+     Provider.of<ApplicationProvider>(context, listen: false)
+         .setAdminChatDetails(adminchat);
+     setState(() {});
+   });
+
+ }
+
+
   }
-}
+
