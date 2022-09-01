@@ -18,26 +18,26 @@ import 'main.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider<ApplicationProvider>(
             create: (context) => ApplicationProvider())
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.grey,
-          ),
-          home: SignInDemo())));
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        home: SignInDemo(),
+      ),
+    ),
+  );
 }
-
-
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({Key? key}) : super(key: key);
