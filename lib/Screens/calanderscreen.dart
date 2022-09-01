@@ -1,10 +1,11 @@
 import 'dart:convert';
-
+import 'package:education_app_opine/Models/EventListModel.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/Preferaneces/preferances.dart';
-import 'package:education_app_opine/Screens/mainhome.dart';
-import 'package:education_app_opine/ConstantWidget/events.dart';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:table_calendar/table_calendar.dart';
 
@@ -19,30 +20,24 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  late Map<DateTime, List<Event>> selectedEvents;
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
-  List<CalendarModel>? holiday  = [];
-  final Map<DateTime, List> holidays = {
-    DateTime(2021, 3, 1): ["228"],
+  List<CalendarModel>? holiday = [];
+  List<DateTime> holidayList = [];
+  List<DateTime> events = [];
 
-  };
-
+  List<EventModel> calendarevent = [];
 
   @override
   void initState() {
-    selectedEvents = {};
+    getCalendar();
+    getEvents(selectedDay.toString().split(" ")[0]);
     super.initState();
   }
 
-  List<Event> _getEventsfromDay(DateTime date) {
-    return selectedEvents[date] ?? [];
-
-  }
-
-  bool isLoading = true;
-
+  bool isLoading = false;
+  bool isSessionLoad = false;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +58,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 30, top: 30),
-
           ),
           Expanded(
             child: Padding(
@@ -88,26 +82,38 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: TableCalendar(
-
-                              focusedDay: selectedDay,
+                              locale: 'en_US',
+                              focusedDay: focusedDay,
+                              currentDay: selectedDay,
                               firstDay: DateTime(1990),
                               lastDay: DateTime(2050),
-
-
                               calendarFormat: format,
+                              onPageChanged: (focusDay) {
+                                focusedDay = focusDay;
+                              },
                               daysOfWeekVisible: true,
-                              onDaySelected:
-                                  (DateTime selectDay, DateTime focusDay) {
+                              selectedDayPredicate: (day) {
+                                return isSameDay(selectedDay, day);
+                              },
+                              onDaySelected: (selectDay, focusDay) {
+                                print(selectDay);
                                 setState(() {
+                                  getEvents(selectDay.toString().split(" ")[0]);
+                                  // calendarevent;
                                   selectedDay = selectDay;
-                                  focusedDay = focusDay;
                                 });
                               },
-                              eventLoader: _getEventsfromDay,
-                              calendarStyle: const CalendarStyle(
-                                holidayTextStyle:
-                                    TextStyle(color: Colors.redAccent),
-                                holidayDecoration: BoxDecoration(),
+                              holidayPredicate: (day) {
+                                DateTime parsedDate =
+                                    new DateFormat("yyyy-MM-dd")
+                                        .parse(day.toString());
+                                return holidayList.contains(parsedDate);
+                              },
+                              calendarStyle: CalendarStyle(
+                                holidayTextStyle: TextStyle(color: Colors.red),
+                                holidayDecoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle),
                                 isTodayHighlighted: true,
                                 selectedDecoration: BoxDecoration(
                                     color: Colors.blue, shape: BoxShape.circle),
@@ -118,19 +124,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   formatButtonVisible: false,
                                   titleCentered: true,
                                   titleTextStyle: TextStyle(fontSize: 18)),
-                              selectedDayPredicate: (DateTime date) {
-                                return isSameDay(selectedDay, date);
-                              },
                               startingDayOfWeek: StartingDayOfWeek.sunday,
-                              onFormatChanged: (CalendarFormat _format) {
-                                setState(() {
-                                  format = _format;
-                                });
-                              },
+                              // onFormatChanged: (CalendarFormat _format) {
+                              //   setState(() {
+                              //     format = _format;
+                              //   });
+                              // },
                             ),
                           ),
                           const Padding(
-                              padding: EdgeInsets.only(top: 20),
+                              padding: EdgeInsets.only(top: 20, bottom: 10),
                               child: Text(
                                 "Events",
                                 style: TextStyle(
@@ -138,25 +141,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     fontWeight: FontWeight.w400,
                                     color: Colors.blue),
                               )),
-                          Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white),
-                                child: ListTile(
-                                  title: const Text("Maths Class"),
-                                  subtitle: const Text("10:00 AM"),
-                                  trailing: Text(
-                                    selectedDay.day.toString() +
-                                        "/" +
-                                        selectedDay.month.toString() +
-                                        "/" +
-                                        selectedDay.year.toString(),
-                                    style: const TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              )),
+                          null != calendarevent && calendarevent.length > 0
+                              ? ListView.builder(
+                                  physics: ScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: calendarevent.length,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white),
+                                        child: ListTile(
+                                          title: Text(
+                                            calendarevent[index]
+                                                .reason
+                                                .toString(),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  })
+                              : Center(
+                                  child: Text("No Events Available"),
+                                )
                         ],
                       ),
                     ),
@@ -166,58 +176,63 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ],
       ),
       backgroundColor: Colors.white,
-
     );
   }
 
-  // Future<CalendarModel?> getCalendar(day,index) async {
-  //   final response = await http.post(
-  //
-  //       Uri.parse(
-  //           "https://educationerp.in/bhavans/index.php/m_api/attendance_c/calender_list"),
-  //       body: {
-  //         "Authorization":
-  //             "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl9kYXRhIjp7InN0dWRlbnRfaWQiOiIzNDAzIiwic3R1ZGVudF9uYW1lIjoiVGVzdCAgVCIsImFkbWlzc2lvbl9ubyI6Ijk5OTk5OSIsImNsYXNzIjoiVGVzdCIsImRpdmlzaW9uIjpudWxsLCJ1c2VybmFtZSI6Ijk5OTk5OSIsInJvbGUiOiI0Iiwicm9sZV9uYW1lIjoiUGFyZW50In19.-b5VVJINJXs0CJ2SX0h5hEN8JDQ9PFSXvvPgCcbv--0",
-  //       });
-  //
-  //   final jsonData = jsonDecode(response.body);
-  //   var data = CalendarModel.fromJson(jsonData).data;
-  //   return data;
-  // }
-
-getCalendar() async {
-
-    isLoading =true;
+  getCalendar() async {
+    isLoading = true;
     setState(() {});
 
     Preferances().getToken().then((value) async {
-
-      var response = await http.post(Uri.parse(ApiData.Calendar_List),body: value);
+      var response =
+          await http.post(Uri.parse(ApiData.Calendar_List), body: value);
       final responsebody = json.decode(response.body.toString());
-      isLoading =false;
+      isLoading = false;
       setState(() {});
-
-      if(responsebody["status"]==200){
-       response = jsonDecode(responsebody);
-
-        List dataList =responsebody['data'];
-        if(null !=dataList && dataList.length > 0){
-          holiday = dataList.map((spacecraft) => new CalendarModel.fromJson(spacecraft)).toList();
-
+      if (responsebody["status"] == 200) {
+        final data = responsebody['data'];
+        List holidayDays = data['holiday_list'];
+        // response = jsonDecode(responsebody);
+        List eventList = data['event_list'];
+        if (null != holidayDays && holidayDays.length > 0) {
+          for (Map<String, dynamic> day in holidayDays) {
+            String? convertedDate =
+                "${day["year"]}-${day["mon"].padLeft(2, '0')}-${day["day"].padLeft(2, '0')}";
+            DateTime parsedDate =
+                new DateFormat("yyyy-MM-dd").parse(convertedDate);
+            holidayList.add(parsedDate);
+          }
         }
       }
-      setState(() {
-
-      });
+      setState(() {});
     });
+  }
 
+  getEvents(String date) async {
+    isLoading = true;
+    events = [];
+    setState(() {});
+    Preferances().getToken().then((value) async {
+      var response = await http.post(Uri.parse(ApiData.Event_List),
+          body: {"Authorization": value["Authorization"], "date": date});
+      final responsebody = json.decode(response.body.toString());
 
+      isLoading = false;
 
-
+      if (responsebody['status'] == 200) {
+        final data = responsebody['data'];
+        List eventList = data["event_list"];
+        if (null != eventList && eventList.length > 0) {
+          calendarevent = eventList
+              .map((spacecraft) => new EventModel.fromJson(spacecraft))
+              .toList();
+        } else {
+          setState(() {
+            calendarevent = [];
+          });
+        }
+      }
+      setState(() {});
+    });
   }
 }
-
-
-
-
-

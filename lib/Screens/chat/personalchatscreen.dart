@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+
 import '../../Models/AdminMessageModel.dart';
 import '../../Provider/provider_block.dart';
+
 
 class AdminMessageScreen extends StatefulWidget {
   const AdminMessageScreen({Key? key}) : super(key: key);
@@ -23,7 +25,15 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   List<MessageSentModel> messages = [];
   bool isLoading = false;
   List<AdminChatModel> listallchat = [];
-  AdminChatModel adminchat =new AdminChatModel();
+  AdminChatModel adminchat = new AdminChatModel();
+
+
+
+
+
+
+
+
 
   @override
   void initState() {
@@ -34,7 +44,7 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ApplicationProvider>(builder: (context, provider, child) {
-      return   Scaffold(
+      return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
           centerTitle: true,
@@ -61,10 +71,8 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
           ]),
         ),
       );
-
-    }
-
-    );}
+    });
+  }
 
   Widget _messageSpace() {
     return Flexible(
@@ -171,30 +179,33 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   }
 
   Future getAllChat() async {
-    isLoading = true;
-    setState(() {});
-    Preferances().getToken().then((value) async {
-      var response =
-          await http.post(Uri.parse(ApiData.ALL_Message), body: value);
-      final responsebody = json.decode(response.body.toString());
 
-      isLoading = false;
-      setState(() {});
-      if (responsebody['status'] == 200) {
-        List dataList = responsebody['data'];
-        if (null != dataList && dataList.length > 0) {
-          listallchat = dataList
-              .map((spacecraft) => new AdminChatModel.fromJson(spacecraft))
-              .toList();
-          // String data = packageModelList[0].id.toString();
-        }
+   isLoading = true;
+   setState(() {});
+   Preferances().getToken().then((value) async {
+     var response =
+     await http.post(Uri.parse(ApiData.ALL_Message), body: value);
+     final responsebody = json.decode(response.body.toString());
+
+     isLoading = false;
+     setState(() {});
+     if (responsebody['status'] == 200) {
+       List dataList = responsebody['data'];
+       if (null != dataList && dataList.length > 0) {
+         listallchat = dataList
+             .map((spacecraft) => new AdminChatModel.fromJson(spacecraft))
+             .toList();
+         // String data = packageModelList[0].id.toString();
+       }
+     }
+     adminchat = AdminChatModel.fromJson(responsebody["data"]);
+     Provider.of<ApplicationProvider>(context, listen: false)
+         .setAdminChatDetails(adminchat);
+     setState(() {});
+   });
+
+ }
 
 
-
-      }
-      adminchat = AdminChatModel.fromJson(responsebody["data"]);
-      Provider.of<ApplicationProvider>(context, listen: false).setAdminChatDetails(adminchat);
-      setState(() {});
-    });
   }
-}
+

@@ -38,9 +38,13 @@ dependencies:
   shared_preferences: ^2.0.15
   provider: ^6.0.2
   shimmer: ^2.0.0
-  firebase_messaging: ^13.0.0
-  flutter_local_notifications: ^9.9.0
+  percent_indicator: ^4.0.1
   firebase_core: ^1.21.1
+  flutter_local_notifications: ^9.9.0
+  firebase_messaging: ^13.0.0
+
+
+
 
 
 
@@ -83,10 +87,10 @@ flutter:
       - lib/Assets/facebook.png
       - lib/Assets/apple.png
       - lib/Assets/erplogo.jpeg
-      - lib/Assets/erplogo-removebg-preview.png
       - lib/Assets/calandar.png
       - lib/Assets/fee.png
       - lib/Assets/message.png
+      - lib/Assets/erplogo-removebg-preview.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

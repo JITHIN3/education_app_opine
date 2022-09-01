@@ -11,21 +11,21 @@ String calendarModelToJson(CalendarModel data) => json.encode(data.toJson());
 
 class CalendarModel {
   CalendarModel({
-    required this.holidayList,
-    required this.eventList,
+     this.holidayList,
+     this.eventList,
   });
 
-  List<HolidayList> holidayList;
-  List<dynamic> eventList;
+  List<HolidayList>? holidayList;
+  List<EventList>? eventList;
 
   factory CalendarModel.fromJson(Map<String, dynamic> json) => CalendarModel(
     holidayList: List<HolidayList>.from(json["holiday_list"].map((x) => HolidayList.fromJson(x))),
-    eventList: List<dynamic>.from(json["event_list"].map((x) => x)),
+    eventList: List<EventList>.from(json["event_list"].map((x) => EventList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "holiday_list": List<dynamic>.from(holidayList.map((x) => x.toJson())),
-    "event_list": List<dynamic>.from(eventList.map((x) => x)),
+    "holiday_list": List<dynamic>.from(holidayList!.map((x) => x.toJson())),
+    "event_list": List<dynamic>.from(eventList!.map((x) => x.toJson())),
   };
 }
 
@@ -46,77 +46,109 @@ class HolidayList {
   });
 
   String? id;
-  AcademicYear? academicYear;
+  String? academicYear;
   String? year;
   String? mon;
   String? day;
   String? reason;
   String? holidayFlag;
-  ClassIn? classIn;
-  HolidaySetId? holidaySetId;
+  String? classIn;
+  String? holidaySetId;
   String? status;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
 
   factory HolidayList.fromJson(Map<String, dynamic> json) => HolidayList(
     id: json["id"],
-    academicYear: academicYearValues.map[json["academic_year"]],
+    academicYear: json["academic_year"],
     year: json["year"],
     mon: json["mon"],
     day: json["day"],
     reason: json["reason"],
     holidayFlag: json["holiday_flag"],
-    classIn: classInValues.map[json["class_in"]],
-    holidaySetId: holidaySetIdValues.map[json["holiday_set_id"]],
+    classIn: json["class_in"],
+    holidaySetId: json["holiday_set_id"],
     status: json["status"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "academic_year": academicYearValues.reverse![academicYear],
+    "academic_year": academicYear,
     "year": year,
     "mon": mon,
     "day": day,
     "reason": reason,
     "holiday_flag": holidayFlag,
-    "class_in": classInValues.reverse![classIn],
-    "holiday_set_id": holidaySetIdValues.reverse![holidaySetId],
+    "class_in": classIn,
+    "holiday_set_id": holidaySetId,
     "status": status,
-    "created_at": "${createdAt?.year.toString().padLeft(4, '0')}-${createdAt?.month.toString().padLeft(2, '0')}-${createdAt?.day.toString().padLeft(2, '0')}",
-    "updated_at": updatedAt?.toIso8601String(),
+    "created_at":createdAt,
+    "updated_at": updatedAt,
+  };
+}
+class EventList {
+  EventList({
+    this.id,
+    this.academicYear,
+    this.mon,
+    this.day,
+    this.year,
+    this.reason,
+    this.remarks,
+    this.eventFlag,
+    this.classIn,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.date,
+  });
+
+  String? id;
+  String? academicYear;
+  String? mon;
+  String? day;
+  String? year;
+  String? reason;
+  String? remarks;
+  String? eventFlag;
+  String? classIn;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+  String? date;
+
+  factory EventList.fromJson(Map<String, dynamic> json) => EventList(
+    id: json["id"],
+    academicYear: json["academic_year"],
+    mon: json["mon"],
+    day: json["day"],
+    year: json["year"],
+    reason: json["reason"],
+    remarks: json["remarks"],
+    eventFlag: json["event_flag"],
+    classIn: json["class_in"],
+    status: json["status"],
+    createdAt: json["created_at"],
+    updatedAt: json["updated_at"],
+    date: json["date"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "academic_year": academicYear,
+    "mon": mon,
+    "day": day,
+    "year": year,
+    "reason": reason,
+    "remarks": remarks,
+    "event_flag": eventFlag,
+    "class_in": classIn,
+    "status": status,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
+    "date": date,
   };
 }
 
-enum AcademicYear { THE_20222023 }
-
-final academicYearValues = EnumValues({
-  "'2022-2023'": AcademicYear.THE_20222023
-});
-
-enum ClassIn { THE_1234567891011121314 }
-
-final classInValues = EnumValues({
-  "1,2,3,4,5,6,7,8,9,10,11,12,13,14": ClassIn.THE_1234567891011121314
-});
-
-enum HolidaySetId { THE_62_AF0983_B0_B97 }
-
-final holidaySetIdValues = EnumValues({
-  "62af0983b0b97": HolidaySetId.THE_62_AF0983_B0_B97
-});
-
-class EnumValues<T> {
-  Map<String , T> map;
-  Map<T, String>? reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String>? get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
-}

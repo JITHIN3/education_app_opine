@@ -1,4 +1,6 @@
+import 'package:education_app_opine/Screens/AttendanceScreen.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
+import 'package:education_app_opine/Screens/ProfileScreen.dart';
 import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/allchat.dart';
 import 'package:education_app_opine/Screens/chat/personalchatscreen.dart';
@@ -40,12 +42,20 @@ class _NaviagtionDrawerState extends State<NaviagtionDrawer> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 30),
-                  child: Text(
-                    provider.studentList.name.toString(),
-                    style: TextStyle(
-                      fontSize: 17,
+                  child: InkWell(
+                    child: Text(
+                      provider.studentList.name.toString(),
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
                     ),
-                  ),
+                  onTap: (){
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StudentProfile()));
+                  },),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 30, top: 10),
@@ -56,17 +66,25 @@ class _NaviagtionDrawerState extends State<NaviagtionDrawer> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 10),
-                  child: ListTile(
-                      leading: Icon(
-                        Icons.file_copy_outlined,
-                        color: Colors.black,
-                        size: iconsize,
-                      ),
-                      title: Text(
-                        "Attendance",
-                        style: TextStyle(
-                            fontSize: fontsize, fontWeight: FontWeight.w400),
-                      )),
+                  child: InkWell(
+                    child: ListTile(
+                        leading: Icon(
+                          Icons.file_copy_outlined,
+                          color: Colors.black,
+                          size: iconsize,
+                        ),
+                        title: Text(
+                          "Attendance",
+                          style: TextStyle(
+                              fontSize: fontsize, fontWeight: FontWeight.w400),
+                        )),
+                  onTap: (){
+
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => StudentsAttandece()));
+                  }),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 30, right: 30),
@@ -97,14 +115,22 @@ class _NaviagtionDrawerState extends State<NaviagtionDrawer> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: ListTile(
-                      leading: Icon(Icons.person,
-                          color: Colors.black, size: iconsize),
-                      title: Text(
-                        "Profile",
-                        style: TextStyle(
-                            fontSize: fontsize, fontWeight: FontWeight.w400),
-                      )),
+                  child: InkWell(
+                    child: ListTile(
+                        leading: Icon(Icons.person,
+                            color: Colors.black, size: iconsize),
+                        title: Text(
+                          "Profile",
+                          style: TextStyle(
+                              fontSize: fontsize, fontWeight: FontWeight.w400),
+                        )),
+                 onTap: (){
+
+                   Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                           builder: (context) => StudentProfile()));
+                 }, ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 30, right: 30),

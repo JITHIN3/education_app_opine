@@ -7,4 +7,5 @@ class ApiData{
   static String Sent_Message =API_URL+"message_c/send_message";
   static String Student_Details =API_URL+"student_profile_c/student_info";
   static String Calendar_List =API_URL+"attendance_c/calender_list";
+  static String Event_List =API_URL +"attendance_c/event_list";
 }

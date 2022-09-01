@@ -60,7 +60,8 @@ class _DashScreenState extends State<DashScreen> {
           ),
           Padding(
               padding: EdgeInsets.only(top: 20, left: 10, right: 15),
-              child: Container(width:30,
+              child: Container(
+                width: 30,
                 child: CircleAvatar(
                     radius: 18,
                     backgroundImage:
@@ -83,30 +84,31 @@ class _DashScreenState extends State<DashScreen> {
               children: [
                 Row(
                   children: [
-                    Stack(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 20, top: 20),
-                          child: ClipRRect(
-                            child: Image(
-                                image: AssetImage("lib/Assets/shield.png"),
-                                height: 24),
+
+                    Padding(
+                      padding: EdgeInsets.only(left: 20,top: 10),
+                      child: Container(
+                        width: 24,
+                        height: 23,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("lib/Assets/shield.png"),
                           ),
                         ),
-                        Positioned(
-                            left: 25,
-                            top: 24,
-                            child: Text(
-                              provider.studentList.dataClass.toString(),
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500),
-                            ))
-                      ],
+                        child: Center(
+                          child: Text(
+                            provider.studentList.dataClass.toString(),
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 6, top: 20),
+                        padding: EdgeInsets.only(left: 6, top: 10),
                         child: Text(
                           provider.studentList.division.toString(),
                           style: TextStyle(
@@ -119,16 +121,15 @@ class _DashScreenState extends State<DashScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
                 //1st
 
                 Padding(
-                  padding: EdgeInsets.only(top: 30, left: 10),
+                  padding: EdgeInsets.only(top: 30, left: 20),
                   child: InkWell(
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -141,12 +142,11 @@ class _DashScreenState extends State<DashScreen> {
                         ],
                       ),
                       width: 80,
-                      margin: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only( top: 20),
+                            padding: const EdgeInsets.only(top: 20),
                             child: Center(
                               child: Image(
                                   width: 35,
@@ -154,7 +154,7 @@ class _DashScreenState extends State<DashScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only( top: 10),
+                            padding: const EdgeInsets.only(top: 10),
                             child: Center(
                               child: Text(
                                 "Message",
@@ -165,10 +165,10 @@ class _DashScreenState extends State<DashScreen> {
                         ],
                       ),
                     ),
-                    onTap: (){
-
+                    onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>AdminMessageScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => AdminMessageScreen()),
                       );
                     },
                   ),
@@ -182,7 +182,7 @@ class _DashScreenState extends State<DashScreen> {
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -200,7 +200,7 @@ class _DashScreenState extends State<DashScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only( top: 20),
+                            padding: const EdgeInsets.only(top: 20),
                             child: Center(
                               child: Image(
                                   width: 30,
@@ -218,10 +218,10 @@ class _DashScreenState extends State<DashScreen> {
                         ],
                       ),
                     ),
-                    onTap: (){
-
+                    onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>CalendarScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => CalendarScreen()),
                       );
                     },
                   ),
@@ -235,7 +235,7 @@ class _DashScreenState extends State<DashScreen> {
                     child: Container(
                       height: 90,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(25),
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -253,7 +253,7 @@ class _DashScreenState extends State<DashScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only( top: 20),
+                            padding: const EdgeInsets.only(top: 20),
                             child: Center(
                               child: Image(
                                   width: 30,
@@ -271,11 +271,9 @@ class _DashScreenState extends State<DashScreen> {
                         ],
                       ),
                     ),
-
-                    onTap: (){
-
+                    onTap: () {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) =>FeePage1()),
+                        MaterialPageRoute(builder: (context) => FeePage1()),
                       );
                     },
                   ),
