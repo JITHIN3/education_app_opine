@@ -6,6 +6,7 @@ import 'package:education_app_opine/Provider/provider_block.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
 import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/personalchatscreen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,15 @@ class _DashScreenState extends State<DashScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    // FirebaseMessaging.instance.getInitialMessage();
+    //
+    // FirebaseMessaging.onMessage.listen((message) {
+    //   if(message.notification !=null){
+    //     print(message.notification!.body);
+    //     print(message.notification!.title);
+    //   }
+    //
+    // });
     super.initState();
     getStudentDetails();
   }

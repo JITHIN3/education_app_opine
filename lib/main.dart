@@ -8,6 +8,8 @@ import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/allchat.dart';
 import 'package:education_app_opine/Screens/dashboard.dart';
 import 'package:education_app_opine/main.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +18,15 @@ import 'Screens/loginscreen.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
-void main() {
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
+}
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<ApplicationProvider>(
@@ -31,25 +41,6 @@ void main() {
           home: SignInDemo())));
 }
 
-// class MyApp extends StatefulWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.grey,
-//       ),
-//     home:SignInDemo());
-//   }
-// }
 
 class SignInDemo extends StatefulWidget {
   @override
@@ -83,6 +74,29 @@ class SignInDemoState extends State<SignInDemo>
   @override
   void initState() {
     super.initState();
+    FirebaseMessaging.instance.getInitialMessage().then((message){
+      if(message !=null){
+        final routeFromMessage = message.data["route"];
+
+        print(routeFromMessage);
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((message) {
+      if(message.notification !=null){
+        print(message.notification!.body);
+        print(message.notification!.title);
+      }
+
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        final routeFromMessage = message.data["route"];
+
+        print(routeFromMessage);
+    });
+
+
     animationController = new AnimationController(
       vsync: this,
       duration: new Duration(seconds: 4),

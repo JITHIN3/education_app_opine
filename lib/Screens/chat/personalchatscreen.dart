@@ -78,30 +78,6 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
           itemBuilder: (context, index) {
             return Column(
               children: [
-                //
-                // Container(
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(18),
-                //       color: Colors.grey.shade200),
-                //   padding: EdgeInsets.only(left: 10,right: 10,top: 7,bottom: 7),
-                //   child: listallchat[index].date == listallchat[index].date?Text(listallchat[index].date.toString(),):Container(),
-                // ),
-                //
-                // Container(
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(18),
-                //       color: Colors.grey.shade200),
-                //   padding: EdgeInsets.only(left: 10,right: 10,top: 7,bottom: 7),
-                //   child: Text(
-                //       listallchat[index].date!.day.toString() +
-                //           " -" +
-                //           listallchat[index].date!.month.toString() +
-                //           "- " +
-                //           listallchat[index].date!.year.toString(),
-                //       style: TextStyle(color: Colors.black.withOpacity(.6))),
-                // ),
-
-                //
                 Text(
                     listallchat[index].date!.day.toString() +
                         " -" +
@@ -194,28 +170,6 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
     setState(() {});
   }
 
-  // Future<List<MessageSentModel>?> sentMessage() async {
-  //   Preferances().getToken().then((value) async {
-  //     var reqdata = jsonEncode({
-  //       "Authorization":widget.studentModel.phone,
-  //       "sent_to": widget.studentModel.email,
-  //       "message":messagecontroller.text
-  //     });
-  //
-  //     http.Response response = await http.post(
-  //         Uri.parse(ApiData.SEND_OTP),headers: value,
-  //         body: reqdata);
-  //     String responseData = response.body.toString();
-  //     var responsebody = jsonDecode(responseData);
-  //
-  //     if ( responsebody['status']== "Sucess") {
-  //      print("message send");
-  //
-  //     } else {
-  //       print("message send failed");
-  //     }
-  //   });
-  // }
   Future getAllChat() async {
     isLoading = true;
     setState(() {});
