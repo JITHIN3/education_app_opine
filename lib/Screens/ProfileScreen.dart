@@ -133,7 +133,7 @@ class StudentProfile extends StatelessWidget {
                               object: "Mother Mobile",
                               data: provider.studentList.mMobile.toString()),
                           StudentData(
-                              object: "Gardian",
+                              object: "Guardian",
                               data: provider.studentList.guardian.toString()),
                           StudentData(
                               object: "Country",

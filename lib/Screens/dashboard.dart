@@ -4,6 +4,7 @@ import 'package:education_app_opine/ConstantWidget/navigationdrawer.dart';
 import 'package:education_app_opine/Models/StudenModel.dart';
 import 'package:education_app_opine/Provider/provider_block.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
+import 'package:education_app_opine/Screens/NotificationScreen.dart';
 import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/personalchatscreen.dart';
 import 'package:education_app_opine/Services/local_notification_service.dart';
@@ -26,7 +27,6 @@ class DashScreen extends StatefulWidget {
 }
 
 class _DashScreenState extends State<DashScreen> {
-
   bool isLoading = true;
   StudentDetailModel studentList = new StudentDetailModel();
 
@@ -38,11 +38,10 @@ class _DashScreenState extends State<DashScreen> {
 
     Preferances().getStudentData().then((value) {
       studentList = value;
-      setState(() {
-
-      });
+      setState(() {});
       // Topic based notification send
-      FirebaseMessaging.instance.subscribeToTopic(studentList.studentId.toString());
+      FirebaseMessaging.instance
+          .subscribeToTopic(studentList.studentId.toString());
 
       //Normal notification send
 
@@ -54,7 +53,7 @@ class _DashScreenState extends State<DashScreen> {
       // });
 
       FirebaseMessaging.onMessage.listen((message) {
-        if(message.notification !=null){
+        if (message.notification != null) {
           print(message.notification!.body);
           print(message.notification!.title);
         }
@@ -67,9 +66,7 @@ class _DashScreenState extends State<DashScreen> {
         print(routeFromMessage);
       });
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +76,19 @@ class _DashScreenState extends State<DashScreen> {
         appBar: AppBar(elevation: 0, backgroundColor: Colors.white, actions: [
           Padding(
             padding: EdgeInsets.only(top: 20, right: 15),
-            child: Icon(
-              Icons.notifications,
-              color: Color.fromARGB(255, 6, 13, 26),
-              size: 25,
-            ),
+            child: InkWell(
+                child: Icon(
+                  Icons.notifications,
+                  color: Color.fromARGB(255, 6, 13, 26),
+                  size: 25,
+                ),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ShowNotifications(),
+                    ),
+                  );
+                }),
           ),
           Padding(
               padding: EdgeInsets.only(top: 20, left: 10, right: 15),
@@ -111,9 +116,8 @@ class _DashScreenState extends State<DashScreen> {
               children: [
                 Row(
                   children: [
-
                     Padding(
-                      padding: EdgeInsets.only(left: 20,top: 10),
+                      padding: EdgeInsets.only(left: 20, top: 10),
                       child: Container(
                         width: 24,
                         height: 23,
@@ -318,7 +322,6 @@ class _DashScreenState extends State<DashScreen> {
     isLoading = true;
     setState(() {});
     Preferances().getToken().then((value) async {
-
       var response =
           await http.post(Uri.parse(ApiData.Student_Details), body: value);
       var responsebody = json.decode(response.body);
@@ -338,6 +341,5 @@ class _DashScreenState extends State<DashScreen> {
       }
     });
   }
-
 }
 // Color.fromARGB(255, 6, 13, 26);

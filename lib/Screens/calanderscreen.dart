@@ -131,11 +131,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   titleCentered: true,
                                   titleTextStyle: TextStyle(fontSize: 18)),
                               startingDayOfWeek: StartingDayOfWeek.sunday,
-                              // onFormatChanged: (CalendarFormat _format) {
-                              //   setState(() {
-                              //     format = _format;
-                              //   });
-                              // },
+
                             ),
                           ),
                           const Padding(
