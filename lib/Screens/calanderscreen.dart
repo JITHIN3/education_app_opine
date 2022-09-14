@@ -25,6 +25,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime focusedDay = DateTime.now();
   List<CalendarModel>? holiday = [];
   List<DateTime> holidayList = [];
+  List<DateTime> eventsList = [];
+  int eventsListIndex=-1;
   List<DateTime> events = [];
 
   List<EventModel> calendarevent = [];
@@ -93,7 +95,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               },
                               daysOfWeekVisible: true,
                               selectedDayPredicate: (day) {
-                                return isSameDay(selectedDay, day);
+                                DateTime parsedDate =
+                                new DateFormat("yyyy-MM-dd")
+                                    .parse(day.toString());
+                                return eventsList.contains(parsedDate);
                               },
                               onDaySelected: (selectDay, focusDay) {
                                 print(selectDay);
@@ -109,6 +114,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                         .parse(day.toString());
                                 return holidayList.contains(parsedDate);
                               },
+
                               calendarStyle: CalendarStyle(
                                 holidayTextStyle: TextStyle(color: Colors.red),
                                 holidayDecoration: BoxDecoration(
@@ -116,9 +122,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     shape: BoxShape.circle),
                                 isTodayHighlighted: true,
                                 selectedDecoration: BoxDecoration(
-                                    color: Colors.blue, shape: BoxShape.circle),
+                                    color: Colors.white, shape: BoxShape.circle),
                                 selectedTextStyle:
-                                    TextStyle(color: Colors.white),
+                                    TextStyle(color: Colors.green),
                               ),
                               headerStyle: const HeaderStyle(
                                   formatButtonVisible: false,
@@ -191,6 +197,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       setState(() {});
       if (responsebody["status"] == 200) {
         final data = responsebody['data'];
+
         List holidayDays = data['holiday_list'];
         // response = jsonDecode(responsebody);
         List eventList = data['event_list'];
@@ -201,6 +208,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
             DateTime parsedDate =
                 new DateFormat("yyyy-MM-dd").parse(convertedDate);
             holidayList.add(parsedDate);
+          }
+        }
+        if (null != eventList && eventList.length > 0) {
+          for (Map<String, dynamic> day in eventList) {
+            String? convertedDate =
+                "${day["year"]}-${day["mon"].padLeft(2, '0')}-${day["day"].padLeft(2, '0')}";
+            DateTime parsedDate =
+            new DateFormat("yyyy-MM-dd").parse(convertedDate);
+            eventsList.add(parsedDate);
           }
         }
       }

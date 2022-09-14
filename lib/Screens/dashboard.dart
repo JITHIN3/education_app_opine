@@ -6,6 +6,7 @@ import 'package:education_app_opine/Provider/provider_block.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
 import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/personalchatscreen.dart';
+import 'package:education_app_opine/Services/local_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,24 +26,50 @@ class DashScreen extends StatefulWidget {
 }
 
 class _DashScreenState extends State<DashScreen> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    // FirebaseMessaging.instance.getInitialMessage();
-    //
-    // FirebaseMessaging.onMessage.listen((message) {
-    //   if(message.notification !=null){
-    //     print(message.notification!.body);
-    //     print(message.notification!.title);
-    //   }
-    //
-    // });
-    super.initState();
-    getStudentDetails();
-  }
 
   bool isLoading = true;
   StudentDetailModel studentList = new StudentDetailModel();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getStudentDetails();
+
+    Preferances().getStudentData().then((value) {
+      studentList = value;
+      setState(() {
+
+      });
+      // Topic based notification send
+      FirebaseMessaging.instance.subscribeToTopic(studentList.studentId.toString());
+
+      //Normal notification send
+
+      // FirebaseMessaging.instance.getInitialMessage().then((message){
+      //   if(message !=null){
+      //     final routeFromMessage = message.data["route"];
+      //     print(routeFromMessage);
+      //   }
+      // });
+
+      FirebaseMessaging.onMessage.listen((message) {
+        if(message.notification !=null){
+          print(message.notification!.body);
+          print(message.notification!.title);
+        }
+        LocalNotificationService.display(message);
+      });
+
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        final routeFromMessage = message.data["route"];
+
+        print(routeFromMessage);
+      });
+    });
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -291,6 +318,7 @@ class _DashScreenState extends State<DashScreen> {
     isLoading = true;
     setState(() {});
     Preferances().getToken().then((value) async {
+
       var response =
           await http.post(Uri.parse(ApiData.Student_Details), body: value);
       var responsebody = json.decode(response.body);
@@ -298,6 +326,9 @@ class _DashScreenState extends State<DashScreen> {
       isLoading = false;
       setState(() {});
       if (responsebody['status'] == 200) {
+        final resdata = responsebody['data'];
+        String studentJson = jsonEncode(resdata);
+        Preferances().setStudentData(studentJson);
         studentList = StudentDetailModel.fromJson(responsebody["data"]);
 
         Provider.of<ApplicationProvider>(context, listen: false)
@@ -307,5 +338,6 @@ class _DashScreenState extends State<DashScreen> {
       }
     });
   }
+
 }
 // Color.fromARGB(255, 6, 13, 26);

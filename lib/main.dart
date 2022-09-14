@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Models/loginmodel.dart';
 import 'Screens/loginscreen.dart';
 import 'package:provider/provider.dart';
+import 'Services/local_notification_service.dart';
 import 'main.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
@@ -25,6 +26,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.initialize();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(MultiProvider(
@@ -74,27 +76,31 @@ class SignInDemoState extends State<SignInDemo>
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.instance.getInitialMessage().then((message){
-      if(message !=null){
-        final routeFromMessage = message.data["route"];
-
-        print(routeFromMessage);
-      }
-    });
-
-    FirebaseMessaging.onMessage.listen((message) {
-      if(message.notification !=null){
-        print(message.notification!.body);
-        print(message.notification!.title);
-      }
-
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-        final routeFromMessage = message.data["route"];
-
-        print(routeFromMessage);
-    });
+  // // Topic based notification send
+  //   FirebaseMessaging.instance.subscribeToTopic("educationerpopine");
+  //
+  //   //Normal notification send
+  //
+  //   // FirebaseMessaging.instance.getInitialMessage().then((message){
+  //   //   if(message !=null){
+  //   //     final routeFromMessage = message.data["route"];
+  //   //     print(routeFromMessage);
+  //   //   }
+  //   // });
+  //
+  //   FirebaseMessaging.onMessage.listen((message) {
+  //     if(message.notification !=null){
+  //       print(message.notification!.body);
+  //       print(message.notification!.title);
+  //     }
+  //     LocalNotificationService.display(message);
+  //   });
+  //
+  //   FirebaseMessaging.onMessageOpenedApp.listen((message) {
+  //       final routeFromMessage = message.data["route"];
+  //
+  //       print(routeFromMessage);
+  //   });
 
 
     animationController = new AnimationController(
