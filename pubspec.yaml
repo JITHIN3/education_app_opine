@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^3.0.6
-  syncfusion_flutter_calendar: ^20.1.58
+  syncfusion_flutter_calendar: ^21.1.38
   bottom_indicator_bar: ^2.0.0
   custom_line_indicator_bottom_navbar: ^0.0.8
   bottom_indicator_bar_fork: ^1.0.2
@@ -39,9 +39,9 @@ dependencies:
   provider: ^6.0.2
   shimmer: ^2.0.0
   percent_indicator: ^4.0.1
-  firebase_core: ^1.21.1
-  flutter_local_notifications: ^9.9.0
-  firebase_messaging: ^13.0.0
+  firebase_core: ^2.9.0
+  flutter_local_notifications: ^14.0.0-dev.2
+  firebase_messaging: ^14.4.0
 
 
 
@@ -57,7 +57,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.12.0
 flutter_icons:
   image_path: lib/Assets/erplogo.jpeg
   android: true
@@ -91,6 +91,7 @@ flutter:
       - lib/Assets/fee.png
       - lib/Assets/message.png
       - lib/Assets/erplogo-removebg-preview.png
+      - lib/Assets/background/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -104,12 +105,16 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+     - family: Inter
+       fonts:
+         - asset: lib/Assets/fonts/static/Inter-ExtraLight.ttf
+         - asset: lib/Assets/fonts/static/Inter-Light.ttf
+         - asset: lib/Assets/fonts/static/Inter-Regular.ttf
+         - asset: lib/Assets/fonts/static/Inter-Medium.ttf
+         - asset: lib/Assets/fonts/static/Inter-SemiBold.ttf
+         - asset: lib/Assets/fonts/static/Inter-Bold.ttf
+           style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
