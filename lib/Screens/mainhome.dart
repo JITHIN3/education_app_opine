@@ -1,8 +1,10 @@
+import 'package:education_app_opine/Screens/FeePayment/fee_payment.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
 import 'package:education_app_opine/Screens/chat/allchat.dart';
 import 'package:education_app_opine/Screens/chat/personalchatscreen.dart';
 import 'package:education_app_opine/Screens/loginscreen.dart';
 import 'package:education_app_opine/Screens/dashboard.dart';
+import 'package:education_app_opine/Screens/noticeboard/noticeboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:custom_line_indicator_bottom_navbar/custom_line_indicator_bottom_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,30 +16,16 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
+  late TabController controller;
+  int _bottomNavIndex = 0;
 
   @override
   void initState() {
     // TODO: implement initState
+    controller = TabController(length: 5, vsync: this);
     super.initState();
-
-  }
-
-  int _bottomNavIndex = 0;
-
-  void _onItemTapped(int index) {
-    if (index != 4) {
-      setState(() {
-        _bottomNavIndex = index;
-      });
-
-      print(_bottomNavIndex);
-    } else if (index == 4) {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) =>const  AdminMessageScreen()),
-      );
-    }
   }
 
   pageCaller(int index) {
@@ -48,31 +36,14 @@ class _HomePageState extends State<HomePage> {
         }
       case 1:
         {
-          return const FeePage1();
+          // return const FeePage1();
+          return const FeePaymentScreen();
+
         }
 
       case 2:
         {
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.insert_drive_file_rounded,
-                      color: Colors.grey,
-                      size: 100,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Noticeboard",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500),)
-                  ],
-                ),
-              ),
-            ),
-          );
+          return NoticeBoardScreen();
         }
       case 3:
         {
@@ -88,9 +59,13 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text("Timetable",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500),)
+                  Text("Coming Soon",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500),)
                 ],
               ),)));
+        }
+      case 4:
+        {
+          return const  AdminMessageScreen();
         }
     }
   }
@@ -101,25 +76,60 @@ class _HomePageState extends State<HomePage> {
       onWillPop: () => onAlertDialoge(context),
       child: Scaffold(
         body: SafeArea(child: pageCaller(_bottomNavIndex)),
-        bottomNavigationBar: CustomLineIndicatorBottomNavbar(
-          currentIndex: _bottomNavIndex,
-          unSelectedColor: Colors.grey,
-          backgroundColor: Colors.white,
-          lineIndicatorWidth: 3,
-          indicatorType: IndicatorType.Top,
-          onTap: _onItemTapped,
-          customBottomBarItems: [
-            CustomBottomBarItems(icon: Icons.home, label: "Home"),
-            CustomBottomBarItems(icon: Icons.payment_rounded, label: "Fee"),
-            CustomBottomBarItems(
-                icon: Icons.filter_frames_rounded, label: "Noticeboard"),
-            CustomBottomBarItems(
-                icon: Icons.perm_contact_calendar_rounded, label: "Timetable"),
-            CustomBottomBarItems(icon: Icons.message, label: "Message"),
-          ],
-          selectedColor: Colors.black,
-          unselectedIconSize: 25,
-          selectedIconSize: 27,
+        bottomNavigationBar: Material(
+          color: Colors.white,
+          child: TabBar(
+            controller: controller,
+            indicator: TopIndicator(),
+            indicatorSize: TabBarIndicatorSize.label,
+            onTap: (index) => setState(() {
+              _bottomNavIndex = index;
+            }),
+            labelColor: Colors.black,
+            labelStyle: TextStyle(
+                fontSize: 10.0,
+                fontWeight: FontWeight.w500
+            ),
+            unselectedLabelColor: Colors.grey,
+            unselectedLabelStyle: TextStyle(
+                fontSize: 10.0,
+                fontWeight: FontWeight.w500
+            ),
+
+            tabs: <Widget>[
+              Tab(
+                icon: Image.asset(_bottomNavIndex == 0?'lib/Assets/menu/home-d.png':'lib/Assets/menu/home.png',
+                  height: 29.0,
+                  semanticLabel: 'Home',
+                ),
+                text: 'Home',
+              ),
+              Tab(
+                  icon: Image.asset(_bottomNavIndex == 1?'lib/Assets/menu/pay-d.png':'lib/Assets/menu/pay.png',
+                    height: 29.0,
+                    semanticLabel: 'payment',
+                  ),
+                  text: 'Fee payment'),
+              Tab(
+                  icon: Image.asset(_bottomNavIndex == 2?'lib/Assets/menu/notice-d.png':'lib/Assets/menu/notice.png',
+                    height: 29.0,
+                    semanticLabel: 'Noticeboard',
+                  ),
+                  text: 'Noticeboard'),
+              Tab(
+                  icon: Image.asset(_bottomNavIndex == 3?'lib/Assets/menu/timetable-d.png':'lib/Assets/menu/timetable.png',
+                    height: 29.0,
+                    semanticLabel: 'Time table',
+                  ),
+                  text: 'Time table'),
+              Tab(
+                  icon: Image.asset(_bottomNavIndex == 4?'lib/Assets/menu/message-d.png':'lib/Assets/menu/message.png',
+                    height: 29.0,
+                    semanticLabel: 'Messages',
+                  ),
+                  text: 'Messages'),
+            ],
+          ),
         ),
       ),
     );
@@ -153,5 +163,25 @@ class _HomePageState extends State<HomePage> {
         });
 
     return exitapp;
+  }
+}
+class TopIndicator extends Decoration {
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    return _TopIndicatorBox();
+  }
+}
+
+class _TopIndicatorBox extends BoxPainter {
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
+    Paint paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round
+      ..isAntiAlias = true;
+
+
+    canvas.drawLine(offset, Offset(cfg.size!.width + offset.dx,0), paint);
   }
 }

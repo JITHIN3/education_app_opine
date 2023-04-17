@@ -27,14 +27,6 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
   List<AdminChatModel> listallchat = [];
   AdminChatModel adminchat = new AdminChatModel();
 
-
-
-
-
-
-
-
-
   @override
   void initState() {
     getAllChat();
@@ -78,7 +70,10 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
     return Flexible(
         child: SingleChildScrollView(
       physics: BouncingScrollPhysics(),
-      child: ListView.builder(
+      child:  listallchat.length == 0?Padding(
+        padding: const EdgeInsets.only(top: 50.0),
+        child: Center(child: Text('No Message Found'),),
+      ):ListView.builder(
           physics: ScrollPhysics(),
           itemCount: listallchat.length,
           shrinkWrap: true,
@@ -185,11 +180,9 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
    Preferances().getToken().then((value) async {
      var response =
      await http.post(Uri.parse(ApiData.ALL_Message), body: value);
-     final responsebody = json.decode(response.body.toString());
-
+     final responsebody = json.decode(response.body);
      isLoading = false;
-     setState(() {});
-     if (responsebody['status'] == 200) {
+     if (responsebody['status'] == 200 && responsebody['data'] !=null) {
        List dataList = responsebody['data'];
        if (null != dataList && dataList.length > 0) {
          listallchat = dataList
@@ -197,10 +190,12 @@ class _AdminMessageScreenState extends State<AdminMessageScreen> {
              .toList();
          // String data = packageModelList[0].id.toString();
        }
+     } else{
+       listallchat =[];
      }
-     adminchat = AdminChatModel.fromJson(responsebody["data"]);
-     Provider.of<ApplicationProvider>(context, listen: false)
-         .setAdminChatDetails(adminchat);
+     // adminchat = AdminChatModel.fromJson(responsebody["data"]);
+     // Provider.of<ApplicationProvider>(context, listen: false)
+     //     .setAdminChatDetails(adminchat);
      setState(() {});
    });
 

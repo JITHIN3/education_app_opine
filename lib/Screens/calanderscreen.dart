@@ -52,15 +52,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFfF8F8F8),
         elevation: 0,
         centerTitle: true,
       ),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 30, top: 30),
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
@@ -70,7 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         topRight: Radius.circular(20),
                         topLeft: Radius.circular(20),
                       ),
-                      color: Colors.blueGrey.shade50),
+                      color: Color(0xFFF8F8F8)),
                   width: Helper.getScreenWidth(context),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
@@ -121,6 +118,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                     color: Colors.white,
                                     shape: BoxShape.circle),
                                 isTodayHighlighted: true,
+                                weekendTextStyle: TextStyle(
+                                  color: Colors.red
+                                ),
                                 selectedDecoration: BoxDecoration(
                                     color: Colors.white, shape: BoxShape.circle),
                                 selectedTextStyle:
@@ -177,7 +177,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF8F8F8),
     );
   }
 

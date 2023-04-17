@@ -1,0 +1,7 @@
+opine education erp playstore details:
+location: inside project folder
+
+filename: playstorefile.jks
+filepassword: opineeducationerp
+alias : opineeducationerp
+password: opineeducationerp

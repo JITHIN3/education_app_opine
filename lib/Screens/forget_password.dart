@@ -1,7 +1,10 @@
+import 'dart:convert';
+
+import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/Screens/loginscreen.dart';
 import 'package:education_app_opine/Screens/set_password.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
@@ -10,6 +13,9 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+
+  TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               )
                           ),
                           TextFormField(
+                            controller: emailController,
                             decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Color(0xFFE6E6E6)),
@@ -97,8 +104,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     SizedBox(height: 52.0,),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (BuildContext context) => SetNewPasswordScreen()));
+                        // Navigator.of(context).pushReplacement(
+                        //     MaterialPageRoute(builder: (BuildContext context) => SetNewPasswordScreen()));
+                     forgotPassword(emailController.text);
                         // if (usernameController.text.length > 0) {
                         //   if (passwordController.text.length > 0) {
                         //     login(usernameController.text, passwordController.text);
@@ -176,5 +184,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       resizeToAvoidBottomInset: false,
     );
+  }
+  Future<void> forgotPassword(String email) async {
+    if(email.isNotEmpty){
+      var response = await http.post(Uri.parse(ApiData.FORGOT_PASSWORD), body: {
+        "email": email,
+      });
+      var data = jsonDecode(response.body);
+      if(data['status'] == 200 && data['status_message'] == "Success"){
+        final resData = data['data'];
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (BuildContext context) => SetNewPasswordScreen(resData)));
+      }
+      if(data['status'] == 200 && data['status_message'] == "Error Occured"){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              duration: Duration(seconds: 5),
+              backgroundColor: Colors.red,
+              content: Text("Email address not found")),
+        );
+      }
+    }
+    else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            duration: Duration(seconds: 5),
+            backgroundColor: Colors.red,
+            content: Text("Enter an email address")),
+      );
+    }
   }
 }

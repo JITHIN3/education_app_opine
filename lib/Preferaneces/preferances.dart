@@ -41,8 +41,6 @@ class Preferances {
     }else{
       return null;
     }
-
-
   }
 
 }

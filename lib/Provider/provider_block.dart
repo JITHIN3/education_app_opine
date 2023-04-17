@@ -8,6 +8,7 @@ class ApplicationProvider with ChangeNotifier{
 
   setAllStudentDetails(StudentDetailModel list){
     this.studentList=list;
+    notifyListeners();
   }
 
   AdminChatModel  adminchat = new AdminChatModel();

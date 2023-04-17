@@ -35,14 +35,17 @@ dependencies:
   custom_line_indicator_bottom_navbar: ^0.0.8
   bottom_indicator_bar_fork: ^1.0.2
   http: ^0.13.4
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.1.0
   provider: ^6.0.2
   shimmer: ^2.0.0
   percent_indicator: ^4.0.1
   firebase_core: ^2.9.0
   flutter_local_notifications: ^14.0.0-dev.2
   firebase_messaging: ^14.4.0
-
+  carousel_slider: ^4.2.1
+  syncfusion_flutter_charts: ^21.1.39
+  payu_checkoutpro_flutter: ^1.0.2
+  payumoney_pro_unofficial: ^0.0.9
 
 
 
@@ -92,6 +95,8 @@ flutter:
       - lib/Assets/message.png
       - lib/Assets/erplogo-removebg-preview.png
       - lib/Assets/background/
+      - lib/Assets/slider/
+      - lib/Assets/menu/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
