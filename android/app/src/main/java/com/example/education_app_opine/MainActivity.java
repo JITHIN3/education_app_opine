@@ -1,4 +1,4 @@
-package com.example.education_app_opine;
+package com.bhavans.education_app_opine;
 
 import io.flutter.embedding.android.FlutterActivity;
 

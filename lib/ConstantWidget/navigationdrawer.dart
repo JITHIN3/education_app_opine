@@ -1,6 +1,7 @@
 import 'package:education_app_opine/Screens/AttendanceScreen.dart';
 import 'package:education_app_opine/Screens/FeePayment/fee_payment.dart';
 import 'package:education_app_opine/Screens/FeePayment/feespage1.dart';
+import 'package:education_app_opine/Screens/Profile/profile_screen.dart';
 import 'package:education_app_opine/Screens/ProfileScreen.dart';
 import 'package:education_app_opine/Screens/calanderscreen.dart';
 import 'package:education_app_opine/Screens/chat/allchat.dart';
@@ -160,7 +161,7 @@ class _NaviagtionDrawerState extends State<NaviagtionDrawer> {
                    Navigator.push(
                        context,
                        MaterialPageRoute(
-                           builder: (context) => StudentProfile()));
+                           builder: (context) => ProfileScreen()));
                  }, ),
                 ),
 
