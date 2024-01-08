@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:crypto/crypto.dart';
 import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/ConstantWidget/navigationdrawer.dart';
@@ -207,7 +208,10 @@ void _toggleCard(int index) {
     Preferances().getToken().then((value) async {
       var response =
       await http.post(Uri.parse(ApiData.FEE_PAYMENT), body: value);
+      debugger();
+
       var responsebody = json.decode(response.body);
+
       isLoading = false;
       if (responsebody['status'] == 200) {
         final resdata = responsebody['data'];
@@ -222,6 +226,7 @@ void _toggleCard(int index) {
     Preferances().getToken().then((value) async {
       var response = await http.post(Uri.parse(ApiData.Payment_History),body: value);
       final responsebody = json.decode(response.body);
+      isLoading = false;
       if (responsebody['status'] == 200) {
       final resData = responsebody['data'];
       paymenthistory = HistoryDataModal.fromJson(resData);

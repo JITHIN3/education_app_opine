@@ -46,6 +46,7 @@ dependencies:
   syncfusion_flutter_charts: ^21.1.39
   payu_checkoutpro_flutter: ^1.0.2
   payumoney_pro_unofficial: ^0.0.9
+  dotted_border: ^2.0.0+3
 
 
 

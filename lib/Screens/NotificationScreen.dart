@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:education_app_opine/Apis/Apidata.dart';
 import 'package:education_app_opine/ConstantWidget/query/screensize.dart';
@@ -36,7 +37,7 @@ class _ShowNotificationsState extends State<ShowNotifications> {
         title: Text("Notifications"),
         centerTitle: true,
       ),
-      body: ListView.builder(
+      body:notification.length >0? ListView.builder(
           physics: ScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
@@ -54,7 +55,9 @@ class _ShowNotificationsState extends State<ShowNotifications> {
                   ),
                 ));
           },
-          itemCount: notification.length),
+          itemCount: notification.length):Center(
+        child: Text('No notifications'),
+      ),
     );
   }
 
@@ -64,6 +67,8 @@ class _ShowNotificationsState extends State<ShowNotifications> {
     Preferances().getToken().then((value) async {
       var response =
           await http.post(Uri.parse(ApiData.Show_Notifications), body: value);
+      debugger();
+
       final responsebody = json.decode(response.body.toString());
       isLoading = false;
       setState(() {});

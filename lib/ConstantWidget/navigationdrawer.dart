@@ -86,7 +86,7 @@ class _NaviagtionDrawerState extends State<NaviagtionDrawer> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StudentProfile()));
+                            builder: (context) => ProfileScreen()));
                   },),
                 ),
                 Padding(
